@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.app.dao.UserDao;
 import com.app.dto.SignUpDTO;
 import com.app.dto.SignInReqDTO;
-
+import com.app.dto.SignInRespDTO;
 import com.app.entities.User;
 import com.app.exception.ResourceNotFoundException;
 
@@ -34,11 +34,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public SignInReqDTO userSignin(SignInReqDTO signinReqDTO, String email) {
+	public SignInRespDTO userSignin(SignInReqDTO signinReqDTO) {
 		
-		User user = userDao.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("Invalid email!!!"));
-		System.out.println(user.toString());
-		return mapper.map(user, SignInReqDTO.class);		
+		User user = userDao.findByEmail(signinReqDTO.getEmail()).orElseThrow(()-> new ResourceNotFoundException("Invalid email!!!"));
+		if(user.getPassword().equals(signinReqDTO.getPassword())){
+			System.out.println("Welcome!!!!!!!!!");
+			System.out.println(user.toString());
+			return mapper.map(user, SignInRespDTO.class);
+		}else {
+			System.out.println("invalid password or email!!!");
+			return null;
+		}
+		
+				
 		
 	}
 
