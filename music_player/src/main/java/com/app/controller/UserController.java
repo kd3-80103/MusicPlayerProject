@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.dto.SigninReqDTO;
-import com.app.dto.SignupDTO;
-import com.app.entities.UserEntity;
+import com.app.dto.SignInReqDTO;
+import com.app.dto.SignUpDTO;
+import com.app.entities.User;
 import com.app.service.UserService;
 
 @RestController
@@ -25,13 +25,13 @@ private UserService userService;
 //signup
 
 @PostMapping("/signup")
-public ResponseEntity<?> userSignup(@RequestBody @Valid SignupDTO dto) {
+public ResponseEntity<?> userSignup(@RequestBody @Valid SignUpDTO dto) {
 	System.out.println("in sign up " + dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.userRegistration(dto));
 	}
 
 @PostMapping("/signin")
-public ResponseEntity<?> signinUser(@RequestBody @Valid SigninReqDTO reqDTO) {
+public ResponseEntity<?> signinUser(@RequestBody @Valid SignInReqDTO reqDTO) {
 	System.out.println("in signin " + reqDTO);
 	
 //	if(reqDTO.getEmail().equals())

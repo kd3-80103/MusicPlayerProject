@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SigninRespDTO {
+public class SignInRespDTO {
 	private String mesg;
 }

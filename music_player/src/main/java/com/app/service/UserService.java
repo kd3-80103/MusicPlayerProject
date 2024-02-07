@@ -1,11 +1,11 @@
 package com.app.service;
 
-import com.app.dto.SigninReqDTO;
-import com.app.dto.SignupDTO;
+import com.app.dto.SignInReqDTO;
+import com.app.dto.SignUpDTO;
 
 public interface UserService {
 	//sign up
-		SignupDTO userRegistration(SignupDTO signupReqDTO);
+		SignUpDTO userRegistration(SignUpDTO signupReqDTO);
 		
-		SigninReqDTO userSignin(SigninReqDTO signinReqDTO, String email);
+		SignInReqDTO userSignin(SignInReqDTO signinReqDTO, String email);
 }
