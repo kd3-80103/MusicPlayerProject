@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SignupDTO {
+public class SignUpDTO {
 	@JsonProperty(access = Access.READ_ONLY) // this property only used during ser.
 	private Long id;
 	@NotBlank(message = "First Name required")
@@ -27,7 +27,7 @@ public class SignupDTO {
 	private String password;
 	private UserRole role;
 
-	public SignupDTO(String firstName, String lastName, String email, String password, UserRole role) {
+	public SignUpDTO(String firstName, String lastName, String email, String password, UserRole role) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;

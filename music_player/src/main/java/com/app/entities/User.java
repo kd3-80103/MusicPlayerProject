@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = "password") // toString excluding password
-public class UserEntity extends BaseEntity {
+public class User extends Base {
 	@Column(length = 50)
 	private String firstName;
 	@Column(length = 50)
