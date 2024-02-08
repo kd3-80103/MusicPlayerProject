@@ -16,6 +16,6 @@ public class SignInReqDTO {
 	@Email(message = "Invalid email format")
 	private String email;
 //	@NotBlank
-	@Length(min = 3,max=20,message = "Invalid password length")
+	@Length(min = 3, max = 20, message = "Invalid password length")
 	private String password;
 }

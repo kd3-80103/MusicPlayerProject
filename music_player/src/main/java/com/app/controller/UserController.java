@@ -19,23 +19,23 @@ import com.app.service.UserService;
 @RequestMapping("/users")
 public class UserController {
 
-@Autowired(required = true)
-private UserService userService;
+	@Autowired(required = true)
+	private UserService userService;
 
 //signup
 
-@PostMapping("/signup")
-public ResponseEntity<?> userSignup(@RequestBody @Valid SignUpDTO dto) {
-	System.out.println("in sign up " + dto);
+	@PostMapping("/signup")
+	public ResponseEntity<?> userSignup(@RequestBody @Valid SignUpDTO dto) {
+		System.out.println("in sign up " + dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.userRegistration(dto));
 	}
 
-@PostMapping("/signin")
-public ResponseEntity<?> signinUser(@RequestBody @Valid SignInReqDTO reqDTO) {
-	System.out.println("in signin " + reqDTO);
-	
+	@PostMapping("/signin")
+	public ResponseEntity<?> signinUser(@RequestBody @Valid SignInReqDTO reqDTO) {
+		System.out.println("in signin " + reqDTO);
+
 //	if(reqDTO.getEmail().equals())
-	
-	return ResponseEntity.ok("User signin successfully");
-}
+
+		return ResponseEntity.ok("User signin successfully");
+	}
 }

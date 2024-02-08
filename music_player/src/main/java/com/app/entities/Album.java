@@ -13,14 +13,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="playlist")
+@Table(name = "playlist")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class Albums {
-private String name;
-private Date release_date;
-private Blob image;
+public class Album {
+	private String name;
+	private Date release_date;
+	private Blob image;
 }
