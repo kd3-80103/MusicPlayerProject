@@ -33,17 +33,6 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.userRegistration(dto));
 	}
 
-<<<<<<< HEAD
-@PostMapping("/signin")
-public ResponseEntity<?> signinUser(@RequestBody @Valid SignInReqDTO reqDTO) {
-	System.out.println("in signin " + reqDTO);
-	
-	SignInRespDTO signinRespDTO = userService.userSignin(reqDTO);
-	System.out.println(signinRespDTO.toString());
-	
-	return ResponseEntity.ok("User signin successfully");
-}
-=======
 	@PostMapping("/signin")
 	public ResponseEntity<?> signinUser(@RequestBody @Valid SignInReqDTO reqDTO) {
 		System.out.println("in signin " + reqDTO);
@@ -52,5 +41,4 @@ public ResponseEntity<?> signinUser(@RequestBody @Valid SignInReqDTO reqDTO) {
 
 		return ResponseEntity.ok("User signin successfully");
 	}
->>>>>>> d00bc9633c89465b501f47b28677c5428cec0a88
 }
