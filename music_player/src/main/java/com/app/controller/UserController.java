@@ -22,17 +22,18 @@ import com.app.service.UserService;
 //@CrossOrigin(origins="http://localhost:3000")
 public class UserController {
 
-@Autowired(required = true)
-private UserService userService;
+	@Autowired(required = true)
+	private UserService userService;
 
 //signup
 
-@PostMapping("/signup")
-public ResponseEntity<?> userSignup(@RequestBody @Valid SignUpDTO dto) {
-	System.out.println("in sign up " + dto);
+	@PostMapping("/signup")
+	public ResponseEntity<?> userSignup(@RequestBody @Valid SignUpDTO dto) {
+		System.out.println("in sign up " + dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.userRegistration(dto));
 	}
 
+<<<<<<< HEAD
 @PostMapping("/signin")
 public ResponseEntity<?> signinUser(@RequestBody @Valid SignInReqDTO reqDTO) {
 	System.out.println("in signin " + reqDTO);
@@ -42,4 +43,14 @@ public ResponseEntity<?> signinUser(@RequestBody @Valid SignInReqDTO reqDTO) {
 	
 	return ResponseEntity.ok("User signin successfully");
 }
+=======
+	@PostMapping("/signin")
+	public ResponseEntity<?> signinUser(@RequestBody @Valid SignInReqDTO reqDTO) {
+		System.out.println("in signin " + reqDTO);
+
+//	if(reqDTO.getEmail().equals())
+
+		return ResponseEntity.ok("User signin successfully");
+	}
+>>>>>>> d00bc9633c89465b501f47b28677c5428cec0a88
 }
