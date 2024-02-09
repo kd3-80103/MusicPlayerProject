@@ -19,6 +19,6 @@ import lombok.ToString;
 @ToString
 public class Artist extends Base {
 	@Column(length = 50)
-	private String name;
+	private String artistName;
 
 }

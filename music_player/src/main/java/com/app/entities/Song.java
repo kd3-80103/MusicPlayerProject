@@ -11,15 +11,19 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "tracks")
+@Table(name = "song")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-
-public class Track extends Base {
-	@Column(length = 50)
-	private String title;
+public class Song extends Base {
+	
+	@Column(length = 400)
+	private byte[] song;
+	@Column(length = 400)
+	private String songPath;
+	
+	
 
 }

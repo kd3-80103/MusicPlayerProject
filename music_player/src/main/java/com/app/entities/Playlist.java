@@ -1,7 +1,11 @@
 package com.app.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +23,9 @@ import lombok.ToString;
 @ToString
 public class Playlist extends Base {
 	@Column(length = 50)
-	private String name;
+	private String playlistName;
+	@ManyToOne
+	@JoinColumn(name = "userId", nullable = false)
+	private User user;
 
 }

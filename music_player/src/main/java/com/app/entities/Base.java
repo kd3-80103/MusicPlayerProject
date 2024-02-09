@@ -16,6 +16,5 @@ public class Base {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-//	UserEntity ue = new UserEntity();
 
 }
