@@ -16,5 +16,4 @@ public class Base {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-
 }

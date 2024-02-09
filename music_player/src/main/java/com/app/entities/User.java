@@ -27,9 +27,9 @@ import lombok.ToString;
 @Setter
 @ToString(exclude = "password") // toString excluding password
 public class User extends Base {
-	@Column(length = 50)
+	@Column(name = "first_name", length = 50)
 	private String firstName;
-	@Column(length = 50)
+	@Column(name = "last_name", length = 50)
 	private String lastName;
 	@Column(length = 50, unique = true)
 	private String email;

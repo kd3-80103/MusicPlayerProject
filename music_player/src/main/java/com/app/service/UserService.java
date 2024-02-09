@@ -5,8 +5,8 @@ import com.app.dto.SignInRespDTO;
 import com.app.dto.SignUpDTO;
 
 public interface UserService {
-	//sign up
-		SignUpDTO userRegistration(SignUpDTO signupReqDTO);
-		
-		SignInRespDTO userSignin(SignInReqDTO signinReqDTO);
+	// sign up
+	SignUpDTO userRegistration(SignUpDTO signupReqDTO);
+
+	SignInRespDTO userSignin(SignInReqDTO signinReqDTO);
 }

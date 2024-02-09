@@ -1,10 +1,16 @@
 package com.app.entities;
 
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -20,13 +26,19 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Album extends Base{
-	@Column(length = 50)
+public class Album extends Base {
+	@Column(name = "album_name", length = 50)
 	private String albumName;
-	@Column(length = 50)
+	@Column(name = "release_date", length = 50)
 	private Date releaseDate;
-	@Column(length = 300)
+	@Lob
 	private byte[] image;
-	@Column(length = 300)
 	private String imagePath;
+
+	@ManyToOne
+	@JoinColumn(name = "artist_id", nullable = false)
+	private Artist artist;
+
+	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Song> songs = new ArrayList<>();
 }

@@ -14,5 +14,5 @@ import lombok.ToString;
 public class SignInRespDTO {
 	private String email;
 	private String password;
-	
+
 }

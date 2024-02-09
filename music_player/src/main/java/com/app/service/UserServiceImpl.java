@@ -16,38 +16,38 @@ import com.app.exception.ResourceNotFoundException;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-	//dep : dao layer i/f
+	// dep : dao layer i/f
 	@Autowired
 	private UserDao userDao;
-	//dep
+	// dep
 	@Autowired
 	private ModelMapper mapper;
-	
+
 	@Override
 	public SignUpDTO userRegistration(SignUpDTO reqDTO) {
-		User user1=mapper.map(reqDTO, User.class);
-		User user2=userDao.save(user1);
-		SignUpDTO dto=mapper.map(user2, SignUpDTO.class);
+		User user1 = mapper.map(reqDTO, User.class);
+		User user2 = userDao.save(user1);
+		SignUpDTO dto = mapper.map(user2, SignUpDTO.class);
 		return dto;
-		
-		//return mapper.map(userDao.save(mapper.map(reqDTO, User.class)),SignUpDTO.class);
+
+		// return mapper.map(userDao.save(mapper.map(reqDTO,
+		// User.class)),SignUpDTO.class);
 	}
 
 	@Override
 	public SignInRespDTO userSignin(SignInReqDTO signinReqDTO) {
-		
-		User user = userDao.findByEmail(signinReqDTO.getEmail()).orElseThrow(()-> new ResourceNotFoundException("Invalid email!!!"));
-		if(user.getPassword().equals(signinReqDTO.getPassword())){
+
+		User user = userDao.findByEmail(signinReqDTO.getEmail())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid email!!!"));
+		if (user.getPassword().equals(signinReqDTO.getPassword())) {
 			System.out.println("Welcome!!!!!!!!!");
 			System.out.println(user.toString());
 			return mapper.map(user, SignInRespDTO.class);
-		}else {
+		} else {
 			System.out.println("invalid password or email!!!");
 			return null;
 		}
-		
-				
-		
+
 	}
 
 }

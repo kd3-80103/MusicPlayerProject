@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 //DTO :  resp DTO : to send API resp from rest server ---> rest clnt
 @NoArgsConstructor
 @Getter
@@ -14,7 +13,7 @@ import lombok.Setter;
 public class ApiResponseDTO {
 	private LocalDateTime timeStamp;
 	private String message;
-	
+
 	public ApiResponseDTO(String message) {
 		super();
 		this.message = message;

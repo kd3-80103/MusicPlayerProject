@@ -1,12 +1,16 @@
 package com.app.entities;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,10 +26,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Playlist extends Base {
-	@Column(length = 50)
+	@Column(name = "playlist_name", length = 50)
 	private String playlistName;
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "userId", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	@ManyToMany(mappedBy = "playlist")
+	private Set<Song> songs = new HashSet<Song>();
 }
