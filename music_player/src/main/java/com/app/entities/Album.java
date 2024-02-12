@@ -31,9 +31,6 @@ public class Album extends Base {
 	private String albumName;
 	@Column(name = "release_date", length = 50)
 	private Date releaseDate;
-	@Lob
-	private byte[] image;
-	private String imagePath;
 
 	@ManyToOne
 	@JoinColumn(name = "artist_id", nullable = false)

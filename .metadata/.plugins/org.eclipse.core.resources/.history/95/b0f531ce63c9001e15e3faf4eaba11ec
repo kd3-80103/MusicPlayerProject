@@ -1,0 +1,13 @@
+package com.app.dto;
+
+import javax.persistence.Column;
+
+public class SongPlaylistReqDTO {
+	private Long playlistId;
+	private byte[] song;
+	private String songPath;
+	private String songTitle;
+	private Long albumId;
+	private Long artistId;
+
+}

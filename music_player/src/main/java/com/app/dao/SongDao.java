@@ -5,5 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.app.entities.Song;
 
 public interface SongDao extends JpaRepository<Song, Long> {
-
+	
+	boolean findBySongPath(String fileName);
+	
+	boolean findBySongTitle(String title);
 }

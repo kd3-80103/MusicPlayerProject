@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;spring_boot_backend_template&apos; to &apos;music_player&apos;" description="Rename resource &apos;spring_boot_backend_template&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/spring_boot_backend_template" name="music_player" stamp="1707210463987" updateReferences="true"/>
+</session>
