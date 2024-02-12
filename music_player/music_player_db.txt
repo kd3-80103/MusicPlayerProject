@@ -1,0 +1,36 @@
+mysql -u root -p 
+
+use music_player_db;
+
+show tables;
+
+desc song;
+
+desc playlist;
+
+desc user;
+
+desc artist;
+
+desc album;
+
+insert into user values(default,'newUser@test.com', 'newUser','newUser', 'newUser123','ROLE_USER');
+
+insert into playlist values(default, 'randomList', 1);
+
+insert into artist values(default, 'newArtist');
+
+insert into album values(default, 'newAlbum', NULL, 1);
+
+
+select * from user;
+
+select * from playlist;
+
+select * from artist;
+
+select * from album;
+
+select * from song;
+
+
