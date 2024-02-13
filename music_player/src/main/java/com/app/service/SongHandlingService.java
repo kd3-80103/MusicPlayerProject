@@ -7,7 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.app.dto.ApiResponseDTO;
 
 public interface SongHandlingService {
-	ApiResponseDTO uploadSong(Long songId, MultipartFile song) throws IOException;
+	ApiResponseDTO uploadSong(Long playlistId, MultipartFile song) throws IOException;
 
 	byte[] downloadSong(Long songId) throws IOException;
+	
+	void addSongsFromFolderToDatabase();
+	
 }

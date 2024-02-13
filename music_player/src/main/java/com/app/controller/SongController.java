@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.app.dao.SongDao;
 import com.app.entities.Song;
 import com.app.service.SongHandlingService;
-import com.app.service.SongService;
+
 
 @RestController
 @RequestMapping("/songs")
@@ -30,7 +30,7 @@ public class SongController {
 	// private SongService songService;
 	private SongDao songDao;
 
-	@Qualifier("song_folder")
+	@Qualifier("song_db")
 	private SongHandlingService songHandlingService;
 
 	@Autowired
@@ -89,7 +89,7 @@ public class SongController {
 //	}
 
 	@PostMapping(value = "/playlist/{playlistId}", consumes = "multipart/form-data")
-	public ResponseEntity<?> uploadImage(@PathVariable Long playlistId, @RequestParam("file") MultipartFile songFile)
+	public ResponseEntity<?> uploadSong(@PathVariable Long playlistId, @RequestParam("file") MultipartFile songFile)
 			throws IOException {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(songHandlingService.uploadSong(playlistId, songFile));
