@@ -1,6 +1,5 @@
 package com.app.controller;
 
-//import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,23 +13,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dao.SongDao;
 import com.app.entities.Song;
 import com.app.service.SongHandlingService;
-import com.app.service.SongService;
 
 @RestController
 @RequestMapping("/songs")
 public class SongController {
-
-	// private SongService songService;
+	
+	
 	private SongDao songDao;
 
-	@Qualifier("song_folder")
+	@Qualifier("song_db")
 	private SongHandlingService songHandlingService;
 
 	@Autowired
@@ -40,59 +37,35 @@ public class SongController {
 		this.songDao = songDao;
 	}
 
-	@GetMapping
-	public ResponseEntity<List<Song>> listAllSong() {
-
-		return ResponseEntity.ok(songDao.findAll());
-
-	}
-
-//	/* upload song from client and saving it either on db or in server side folder
-//	   method = POST, reqparam: multipart file(song data)*/
-//	@PostMapping(consumes = "multipart/form-data")
-//	public ResponseEntity<?> uploadSong(@RequestParam("file") MultipartFile songFile, Long songId)
-//	throws IOException{
-//		
-//		//check same songs are already present or not
-//		if(songDao.findBySongPath(songFile.getOriginalFilename()) || songDao.findBySongTitle(song.getSongTitle())) {
-//			return ResponseEntity.badRequest().body("taken");
-//		}else {
-//			System.out.println();
-//			songHandlingService.uploadSong(songId, songFile);
-//			
-//			//saving the song data into the db
-//			song.setSongPath(songFile.getOriginalFilename());
-//			Song insertedSong = songDao.save(song);
-//			
-//			return new ResponseEntity<>(insertedSong, HttpStatus.CREATED);
-//		}
-////		System.out.println("inside upload image: "+ songId);
-////		return ResponseEntity.status(HttpStatus.CREATED).body(songHandlingService.uploadSong(songId, songFile));
+//	@GetMapping
+//	public ResponseEntity<List<Song>> listAllSong() {
+//
+//		return ResponseEntity.ok(songDao.findAll());
+//
 //	}
 
-//	
-//	public byte[] getSong() {
-//		
-//		
-//		
-//		return new byte[0];
-//	}
-//	
-//	/* serve(download song) of specific song
-//	   method = GET*/
-//	@GetMapping(value = "/songs/{songId}", produces = 
-//		{APPLICATION_OCTET_STREAM})
-//		public ResponseEntity<?> serveSong(@PathVariable Long songId) throws IOException {
-//		
-//		System.out.println("inside downloadSong "+ songId);
-//		return ResponseEntity.ok(songHandlingService.downloadSong(songId));
-//	}
-
-	@PostMapping(value = "/playlist/{playlistId}", consumes = "multipart/form-data")
-	public ResponseEntity<?> uploadImage(@PathVariable Long playlistId, @RequestParam("file") MultipartFile songFile)
+	@PostMapping(value = "/folder/{songId}", consumes = "multipart/form-data")
+	public ResponseEntity<?> uploadSongToServerFolder(@PathVariable Long songId, @RequestParam("songFileFolder") MultipartFile songFile)
 			throws IOException {
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(songHandlingService.uploadSong(playlistId, songFile));
+		return ResponseEntity.status(HttpStatus.CREATED).body(songHandlingService.uploadSongToFolder(songId, songFile));
 	}
+	
+	
+	@GetMapping(value = "/db/{songId}")
+	public byte[] readSongFromServerFolder(@PathVariable Long songId) throws IOException {
+		
+		System.out.println("downloaded song id: "+ songId);
+		
+		return songHandlingService.downloadSong(songId);
+	}
+	
+	
+//	@PostMapping(value = "/db/{songId}", consumes = "multipart/form-data")
+//	public ResponseEntity<?> uploadSongPathToDB(@PathVariable Long songId, @RequestParam("songPathDB") MultipartFile songFile)
+//			throws IOException {
+//
+//		return ResponseEntity.status(HttpStatus.CREATED).body(songHandlingService.uploadSongPathToDB(songId, songFile));
+//	}
 
 }	

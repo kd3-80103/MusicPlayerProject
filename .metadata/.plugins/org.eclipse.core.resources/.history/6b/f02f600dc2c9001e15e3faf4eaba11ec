@@ -1,0 +1,22 @@
+package com.app.dto;
+
+import javax.persistence.Column;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class SongPlaylistReqDTO {
+	private PlaylistDTO playlist;
+	private byte[] song;
+	private String songPath;
+	private String songTitle;
+	private Long albumId;
+	private Long artistId;
+
+}

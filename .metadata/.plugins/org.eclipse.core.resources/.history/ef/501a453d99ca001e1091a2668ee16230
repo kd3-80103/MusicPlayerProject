@@ -1,0 +1,13 @@
+package com.app.service;
+
+import com.app.entities.Playlist;
+
+public class PlaylistServiceImpl implements PlaylistService {
+
+	@Override
+	public Playlist createPlaylist(Playlist playlist) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

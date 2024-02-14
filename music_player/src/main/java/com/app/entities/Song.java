@@ -1,15 +1,8 @@
 package com.app.entities;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,16 +22,18 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Song extends Base {
-	@Lob
-	private byte[] song;
-	@Column(name="song_path",length=300)
+//	@Lob
+//	private byte[] song;
+	@Column(name = "song_path", length = 300)
 	private String songPath;
-	@Column(name="song_title",length=200)
+	@Column(name = "song_title", length = 200)
 	private String songTitle;
+
 	@JsonIgnore
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "song_playlist", joinColumns = @JoinColumn(name = "song_id"), inverseJoinColumns = @JoinColumn(name = "playlist_id"))
-	private Set<Playlist> playlist = new HashSet<>();
+	@ManyToOne
+	@JoinColumn(name = "playlist_id", nullable = false)
+	private Playlist playlist;
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "album_id", nullable = false)
@@ -47,4 +42,5 @@ public class Song extends Base {
 	@ManyToOne
 	@JoinColumn(name = "artist_id", nullable = false)
 	private Artist artist;
+
 }

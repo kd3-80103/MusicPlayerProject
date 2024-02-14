@@ -21,74 +21,85 @@ import com.app.entities.Song;
 import com.app.exception.ApiException;
 import com.app.exception.ResourceNotFoundException;
 
-
 @Service("song_folder")
 @Transactional
 public class SongHandlingServiceImplFolder implements SongHandlingService {
-	
+
 	@Autowired
 	private SongDao songDao;
-	
-	@Autowired
-	private PlaylistDao playlistDao;
-	
+
 	SongPlaylistReqDTO songPlaylistReqDTO = new SongPlaylistReqDTO();
-	
+
 	@Value("${folder.location}")
 	private String folderLocation;
-	
+
 	public void init() {
-		System.out.println("inside init() : "+ folderLocation);
-		//check if folder exists --yes --continue
+		System.out.println("inside init() : " + folderLocation);
+		// check if folder exists --yes --continue
 		File folder = new File(folderLocation);
-		if(folder.exists()) {
+		if (folder.exists()) {
 			System.out.println("folder exists already.");
-		}else {
-		//--no --create a folder
+		} else {
+			// --no --create a folder
 			folder.mkdir();
 			System.out.println("created a folder.");
 		}
 	}
 
 	@Override
-	public ApiResponseDTO uploadSong(Long playlistId, MultipartFile song) throws IOException {
-		
-		
-		
-		Playlist playlist = playlistDao.findById(playlistId).orElseThrow(()-> new ResourceNotFoundException("Invalid playlist ID!"));
-		
-		
-		PlaylistDTO playlistDTO = new PlaylistDTO();
-		playlistDTO.setId(playlist.getId());
-		playlistDTO.setPlaylistName(playlist.getPlaylistName());
-		playlistDTO.setUserId(playlist.getUser().getId());
-		
-		//song found --PERSISTENT
-		//store the song on server side folder
+	public ApiResponseDTO uploadSongToFolder(Long songId, MultipartFile song) throws IOException {
+
+		Song songObj = songDao.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Invalid song ID"));
+
 		String path = folderLocation.concat(song.getOriginalFilename());
-		System.out.println(path);
-		//use FileUtils method : writeByte[] --File
+
+		System.out.println("path while uploading to folder: "+path);
+
 		FileUtils.writeByteArrayToFile(new File(path), song.getBytes());
-		//set song path
-		
-		songPlaylistReqDTO.setSongPath(path);
-		
-		return new ApiResponseDTO("song file uploaded successfully for song id: "+ playlistId);
+
+		songObj.setSongPath(path);
+
+		return new ApiResponseDTO("song uploaded successfully" + songId);
 	}
+
+	
+//	//just to add path in the database
+//	@Override
+//	public String uploadSongPathToDB(Long songId, MultipartFile song) throws IOException {
+//
+//		Song songObj = songDao.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Invalid song ID"));
+//
+//		String path = folderLocation.concat(song.getOriginalFilename());
+//
+//		System.out.println("path while uploading in DB: "+path);
+//
+////		FileUtils.writeByteArrayToFile(new File(path), song.getBytes());
+//
+//		songObj.setSongPath(path);
+//
+//		return "song path added successfully to DB!";
+//	}
 
 	@Override
 	public byte[] downloadSong(Long songId) throws IOException {
 		// get song id
-		Song song = songDao.findById(songId).orElseThrow(()-> new ResourceNotFoundException("Invalid song ID!"));
+		Song song = songDao.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Invalid song ID!"));
 		// song found -- PERSISTENT
 		String path = song.getSongPath();
-		
-		if(path != null) {
+
+		if (path != null) {
 			// path -- File -- byte[]
 			return FileUtils.readFileToByteArray(new File(path));
-			//OR from DB: return song.getSong();
-		}else {
+			// OR from DB: return song.getSong();
+		} else {
 			throw new ApiException("Song not yet assigned!");
 		}
 	}
+
+//	@Override
+//	public void addSongPathToDB() {
+//		// TODO Auto-generated method stub
+//		throw new UnsupportedOperationException("Unimplemented method 'addSongsFromFolderToDatabase'");
+//	}
+
 }

@@ -1,0 +1,21 @@
+package com.app.service;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.dao.PlaylistDao;
+import com.app.entities.Playlist;
+@Service
+@Transactional
+public class PlaylistServiceImpl implements PlaylistService {
+	
+	@Autowired
+	private PlaylistDao playDao;
+	@Override
+	public Playlist createPlaylist(Playlist playlist) {
+		return playDao.save(playlist) ;
+	}
+
+}

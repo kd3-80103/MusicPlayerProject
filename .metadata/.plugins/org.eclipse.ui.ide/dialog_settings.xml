@@ -101,10 +101,4 @@
 		<item value="org.springsource.sts.package:3.9.16.202103111951-RELEASE-e419"/>
 		<item value="org.springsource.sts:3.9.16.202103111951-RELEASE"/>
 	</list>
-	<section name="SmartImportWizard">
-		<item key="SmartImportRootWizardPage.STORE_HIDE_ALREADY_OPEN" value="false"/>
-		<item key="SmartImportRootWizardPage.STORE_CLOSE_IMPORTED" value="false"/>
-		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
-		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
-	</section>
 </section>
