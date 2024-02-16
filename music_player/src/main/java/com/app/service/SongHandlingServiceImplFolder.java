@@ -11,12 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.app.dao.PlaylistDao;
 import com.app.dao.SongDao;
 import com.app.dto.ApiResponseDTO;
-import com.app.dto.PlaylistDTO;
-import com.app.dto.SongPlaylistReqDTO;
-import com.app.entities.Playlist;
 import com.app.entities.Song;
 import com.app.exception.ApiException;
 import com.app.exception.ResourceNotFoundException;
@@ -27,8 +23,6 @@ public class SongHandlingServiceImplFolder implements SongHandlingService {
 
 	@Autowired
 	private SongDao songDao;
-
-	SongPlaylistReqDTO songPlaylistReqDTO = new SongPlaylistReqDTO();
 
 	@Value("${folder.location}")
 	private String folderLocation;
@@ -47,7 +41,7 @@ public class SongHandlingServiceImplFolder implements SongHandlingService {
 	}
 
 	@Override
-	public ApiResponseDTO uploadSongToFolder(Long songId, MultipartFile song) throws IOException {
+	public ApiResponseDTO uploadSongToFolderPathToDB(Long songId, MultipartFile song) throws IOException {
 
 		Song songObj = songDao.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Invalid song ID"));
 
@@ -63,23 +57,6 @@ public class SongHandlingServiceImplFolder implements SongHandlingService {
 	}
 
 	
-//	//just to add path in the database
-//	@Override
-//	public String uploadSongPathToDB(Long songId, MultipartFile song) throws IOException {
-//
-//		Song songObj = songDao.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Invalid song ID"));
-//
-//		String path = folderLocation.concat(song.getOriginalFilename());
-//
-//		System.out.println("path while uploading in DB: "+path);
-//
-////		FileUtils.writeByteArrayToFile(new File(path), song.getBytes());
-//
-//		songObj.setSongPath(path);
-//
-//		return "song path added successfully to DB!";
-//	}
-
 	@Override
 	public byte[] downloadSong(Long songId) throws IOException {
 		// get song id
@@ -95,11 +72,5 @@ public class SongHandlingServiceImplFolder implements SongHandlingService {
 			throw new ApiException("Song not yet assigned!");
 		}
 	}
-
-//	@Override
-//	public void addSongPathToDB() {
-//		// TODO Auto-generated method stub
-//		throw new UnsupportedOperationException("Unimplemented method 'addSongsFromFolderToDatabase'");
-//	}
 
 }

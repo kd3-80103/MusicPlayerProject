@@ -3,15 +3,14 @@ package com.app.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.app.dao.PlaylistDao;
 import com.app.dto.ApiResponseDTO;
 import com.app.entities.Playlist;
-import com.app.entities.User;
+import com.app.entities.Song;
+import com.app.exception.ResourceNotFoundException;
 
 @Service
 @Transactional
@@ -33,6 +32,17 @@ public class PlaylistServiceImpl implements PlaylistService {
 			return new ApiResponseDTO("playlist deleted successfully!");
 		} else
 			return new ApiResponseDTO("playlist not found!");
+	}
+
+	@Override
+	public ApiResponseDTO addSongToPlaylist(Long playListId, Song song) {
+		Playlist playlist = playlistDao.findById(playListId).orElseThrow(()-> new ResourceNotFoundException("Invalid playlist!"));
+		
+		song.setPlaylist(playlist);
+		playlist.addSong(song);
+		playlistDao.save(playlist);
+		
+		return null;
 	}
 
 }

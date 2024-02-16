@@ -22,8 +22,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Song extends Base {
-//	@Lob
-//	private byte[] song;
+	
 	@Column(name = "song_path", length = 300)
 	private String songPath;
 	@Column(name = "song_title", length = 200)
@@ -33,14 +32,5 @@ public class Song extends Base {
 	@ManyToOne
 	@JoinColumn(name = "playlist_id", nullable = false)
 	private Playlist playlist;
-
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "album_id", nullable = false)
-	private Album album;
-
-	@ManyToOne
-	@JoinColumn(name = "artist_id", nullable = false)
-	private Artist artist;
 
 }

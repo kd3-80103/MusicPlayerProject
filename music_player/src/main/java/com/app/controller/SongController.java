@@ -2,7 +2,6 @@ package com.app.controller;
 
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,25 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.app.dao.SongDao;
-import com.app.entities.Song;
 import com.app.service.SongHandlingService;
 
 @RestController
 @RequestMapping("/songs")
 public class SongController {
-	
-	
-	private SongDao songDao;
 
 	@Qualifier("song_db")
 	private SongHandlingService songHandlingService;
 
 	@Autowired
-	public SongController(SongHandlingService songHandlingService, SongDao songDao) {
+	public SongController(SongHandlingService songHandlingService) {
 		System.out.println("inside SongController ctor");
 		this.songHandlingService = songHandlingService;
-		this.songDao = songDao;
 	}
 
 //	@GetMapping
@@ -48,7 +41,7 @@ public class SongController {
 	public ResponseEntity<?> uploadSongToServerFolder(@PathVariable Long songId, @RequestParam("songFileFolder") MultipartFile songFile)
 			throws IOException {
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(songHandlingService.uploadSongToFolder(songId, songFile));
+		return ResponseEntity.status(HttpStatus.CREATED).body(songHandlingService.uploadSongToFolderPathToDB(songId, songFile));
 	}
 	
 	
