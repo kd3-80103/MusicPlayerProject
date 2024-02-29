@@ -1,8 +1,13 @@
 package com.app.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +28,21 @@ public class PlaylistController {
 	@Autowired
 	private PlaylistService playService;
 	
-	@PostMapping
+	
+	@GetMapping("/{playlistId}")
+    public ResponseEntity<Playlist> getPlaylistById(@PathVariable Long playlistId) {
+        Optional<Playlist> playlist = playService.getPlaylistById(playlistId);
+        return playlist.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // Endpoint to get all playlists
+    @GetMapping
+    public List<Playlist> getAllPlaylists() {
+        return playService.getAllPlaylists();
+    }
+	
+	@PostMapping("/create")
 	public Playlist createPlayList(@RequestBody Playlist playlist) {
 		return playService.createPlaylist(playlist);
 	}

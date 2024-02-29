@@ -1,7 +1,0 @@
-package com.app.service;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface playlistDao extends JpaRepository<T, ID> {
-
-}

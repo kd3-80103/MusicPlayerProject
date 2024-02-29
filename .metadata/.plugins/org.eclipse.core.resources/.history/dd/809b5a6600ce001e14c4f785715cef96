@@ -1,0 +1,24 @@
+package com.app.service;
+
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
+import com.app.entities.Song;
+
+
+@Service
+@Transactional
+public class SongHandlingServiceImplFolder implements SongHandlingService{
+	
+	SongHandlingService songHandlingService;
+	
+	@Override
+	public Song findById(Long songId) throws Exception {
+		
+		return null;
+	}
+	
+	
+}
+

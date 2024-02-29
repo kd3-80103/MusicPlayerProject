@@ -1,0 +1,77 @@
+package com.app.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.app.dto.ApiResponseDTO;
+import com.app.dto.SongDetailsDTO;
+import com.app.entities.Song;
+import com.app.service.AdminService;
+
+@RestController
+@RequestMapping("/songs")
+@CrossOrigin(origins = "http://localhost:3000")
+public class AdminController {
+		
+	@Qualifier("song_db")
+	private AdminService adminSerivce;
+
+	@Autowired
+	public AdminController(AdminService adminSerivce) {
+		System.out.println("inside SongController ctor");
+		this.adminSerivce = adminSerivce;
+	}
+
+//	@PostMapping(value = "/upload/{songId}", consumes = "multipart/form-data")
+//	public ResponseEntity<?> uploadSongToServerFolder(@PathVariable Long songId, @RequestParam("songFileFolder") MultipartFile songFile)
+//			throws IOException {
+//		
+//		return ResponseEntity.status(HttpStatus.CREATED).body(adminSerivce.uploadSongToFolderPathToDB(songId, songFile));
+//	}
+//	
+//	@PostMapping("/upload/details")
+//	public ResponseEntity<?> uploadSongDetails(@RequestBody SongDetailsDTO songDetailsDTO) throws IOException {
+//	    ApiResponseDTO response = adminSerivce.uploadSongToDB(songDetailsDTO.getSongTitle(), songDetailsDTO.getPlaylistId());
+//	    return new ResponseEntity<>(response, HttpStatus.CREATED);
+//	}
+	
+	@PostMapping("/upload")
+	public ResponseEntity<?> uploadSong(
+	        @RequestParam("title") String title,
+	        @RequestParam("playlistId") Long playlistId,
+	        @RequestParam("file") MultipartFile file) throws IOException {
+	    ApiResponseDTO response = adminSerivce.uploadSongWithDetails(title, playlistId, file);
+	    return new ResponseEntity<>(response, HttpStatus.CREATED);
+	}
+
+
+	
+	@GetMapping(value = "/db/{songId}")
+	public byte[] readSongFromServerFolder(@PathVariable Long songId) throws IOException {
+		
+		System.out.println("downloaded song id: "+ songId);
+		
+		return adminSerivce.downloadSong(songId);
+	}
+	
+	@GetMapping
+    public ResponseEntity<List<Song>> getAllSongs() {
+        List<Song> songs = adminSerivce.findAllSongs(); // Assuming you have a method to fetch all songs
+        return ResponseEntity.ok(songs);
+    }
+	
+}

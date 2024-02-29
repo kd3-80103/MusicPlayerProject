@@ -1,0 +1,31 @@
+package com.app.service;
+
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
+import com.app.dao.SongDao;
+import com.app.entities.Song;
+import com.app.exception.ResourceNotFoundException;
+
+
+@Service
+@Transactional
+public class SongHandlingServiceImplFolder implements SongHandlingService{
+	
+	private SongDao songDao;
+	
+	public SongHandlingServiceImplFolder(SongDao songDao) {
+		
+		this.songDao = songDao;
+	}
+	
+	@Override
+	public Song getSongById(Long songId) throws Exception {
+		
+		return songDao.findById(songId).orElseThrow(()-> new ResourceNotFoundException("Invalid songId"));
+	}
+	
+	
+}
+

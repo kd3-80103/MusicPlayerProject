@@ -1,76 +1,63 @@
 package com.app.service;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.transaction.Transactional;
 
-import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dao.SongDao;
-import com.app.dto.ApiResponseDTO;
 import com.app.entities.Song;
-import com.app.exception.ApiException;
 import com.app.exception.ResourceNotFoundException;
 
-@Service("song_folder")
+@Service
 @Transactional
 public class SongHandlingServiceImplFolder implements SongHandlingService {
 
-	@Autowired
 	private SongDao songDao;
 
 	@Value("${folder.location}")
-	private String folderLocation;
+	private String baseDir;
 
-	public void init() {
-		System.out.println("inside init() : " + folderLocation);
-		// check if folder exists --yes --continue
-		File folder = new File(folderLocation);
-		if (folder.exists()) {
-			System.out.println("folder exists already.");
-		} else {
-			// --no --create a folder
-			folder.mkdir();
-			System.out.println("created a folder.");
-		}
+	public SongHandlingServiceImplFolder(SongDao songDao) {
+
+		this.songDao = songDao;
 	}
 
 	@Override
-	public ApiResponseDTO uploadSongToFolderPathToDB(Long songId, MultipartFile song) throws IOException {
+	public Song findSongById(Long songId) {
 
-		Song songObj = songDao.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Invalid song ID"));
-
-		String path = folderLocation.concat(song.getOriginalFilename());
-
-		System.out.println("path while uploading to folder: "+path);
-
-		FileUtils.writeByteArrayToFile(new File(path), song.getBytes());
-
-		songObj.setSongPath(path);
-
-		return new ApiResponseDTO("song uploaded successfully" + songId);
+		return songDao.findById(songId).orElseThrow(() -> new ResourceNotFoundException("song Id is invalid!"));
 	}
 
-	
 	@Override
-	public byte[] downloadSong(Long songId) throws IOException {
-		// get song id
-		Song song = songDao.findById(songId).orElseThrow(() -> new ResourceNotFoundException("Invalid song ID!"));
-		// song found -- PERSISTENT
-		String path = song.getSongPath();
+	public Resource loadSongAsResource(Long songId) throws Exception {
+		Song song = findSongById(songId);
 
-		if (path != null) {
-			// path -- File -- byte[]
-			return FileUtils.readFileToByteArray(new File(path));
-			// OR from DB: return song.getSong();
-		} else {
-			throw new ApiException("Song not yet assigned!");
+		try {
+			Path filePath = Paths.get(baseDir).resolve(song.getSongPath()).normalize();
+			Resource resource = new UrlResource(filePath.toUri());
+			if (resource.exists() || resource.isReadable()) {
+				return resource;
+			} else {
+				throw new FileNotFoundException("Could not read file: " + song.getSongPath());
+			}
+		} catch (MalformedURLException ex) {
+			throw new FileNotFoundException("Could not read file: " + songId + ", due to malformed URL.");
 		}
+
 	}
+
+//	@Override
+//	public Song getSongById(Long songId) throws Exception {
+//		
+//		return songDao.findById(songId).orElseThrow(()-> new ResourceNotFoundException("Invalid songId"));
+//	}
 
 }

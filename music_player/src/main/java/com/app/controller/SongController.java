@@ -1,64 +1,70 @@
 package com.app.controller;
 
-
-import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.app.entities.Song;
 import com.app.service.SongHandlingService;
 
 @RestController
 @RequestMapping("/songs")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SongController {
 
-	@Qualifier("song_db")
-	private SongHandlingService songHandlingService;
+    @Value("${folder.location}")
+    private String songsFolder;
 
-	@Autowired
-	public SongController(SongHandlingService songHandlingService) {
-		System.out.println("inside SongController ctor");
-		this.songHandlingService = songHandlingService;
-	}
+    @Autowired
+    private SongHandlingService songHandlingService;
 
-//	@GetMapping
-//	public ResponseEntity<List<Song>> listAllSong() {
-//
-//		return ResponseEntity.ok(songDao.findAll());
-//
-//	}
+//    @GetMapping("/stream/{songId}")
+//    public ResponseEntity<Resource> streamSong(@PathVariable Long songId) {
+//        try {
+//            Song song = songHandlingService.getSongById(songId);
+//            Path songFolderPath = Paths.get(songsFolder).toAbsolutePath().normalize();
+//            Path filePath = songFolderPath.resolve(song.getSongPath()).normalize();
+//            Resource resource = new UrlResource(filePath.toUri());
+//            if (resource.exists()) {
+//                return ResponseEntity.ok()
+//                        .contentType(MediaType.parseMediaType("audio/mpeg"))
+//                        .body(resource);
+//            } else {
+//                return ResponseEntity.notFound().build();
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.internalServerError().build();
+//        }
+//    }
+    
+    @GetMapping("/stream/{songId}")
+    public ResponseEntity<Resource> streamSong(@PathVariable Long songId) {
+        try {
+            Song song = songHandlingService.findSongById(songId); // Implement this method
+            Path filePath = Paths.get(song.getSongPath()).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType("audio/mpeg"))
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
-	@PostMapping(value = "/folder/{songId}", consumes = "multipart/form-data")
-	public ResponseEntity<?> uploadSongToServerFolder(@PathVariable Long songId, @RequestParam("songFileFolder") MultipartFile songFile)
-			throws IOException {
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(songHandlingService.uploadSongToFolderPathToDB(songId, songFile));
-	}
-	
-	
-	@GetMapping(value = "/db/{songId}")
-	public byte[] readSongFromServerFolder(@PathVariable Long songId) throws IOException {
-		
-		System.out.println("downloaded song id: "+ songId);
-		
-		return songHandlingService.downloadSong(songId);
-	}
-	
-	
-//	@PostMapping(value = "/db/{songId}", consumes = "multipart/form-data")
-//	public ResponseEntity<?> uploadSongPathToDB(@PathVariable Long songId, @RequestParam("songPathDB") MultipartFile songFile)
-//			throws IOException {
-//
-//		return ResponseEntity.status(HttpStatus.CREATED).body(songHandlingService.uploadSongPathToDB(songId, songFile));
-//	}
-
-}	
+    
+}

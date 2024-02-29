@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
-    <typeInfo handle="=music_player/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.app.service{PlaylistService.java[PlaylistService" modifiers="513" timestamp="1707980836979"/>
+    <typeInfo handle="=music_player/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.app.service{PlaylistService.java[PlaylistService" modifiers="513" timestamp="1708263693021"/>
+    <typeInfo handle="=music_player/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.app.service{AdminService.java[AdminService" modifiers="513" timestamp="1708319987629"/>
 </typeInfoHistroy>

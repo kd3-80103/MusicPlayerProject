@@ -1,0 +1,9 @@
+package com.app.service;
+
+import com.app.entities.Song;
+
+public interface SongHandlingService {
+	
+	Song findById(Long songId) throws Exception;
+
+}

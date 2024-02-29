@@ -1,0 +1,15 @@
+package com.app.service;
+
+import com.app.entities.Song;
+
+class SongHnadlingServiceImplFolder implements SongHandlingService{
+
+	@Override
+	public Song findById(Long songId) {
+		
+		return null;
+	}
+	
+	
+}
+

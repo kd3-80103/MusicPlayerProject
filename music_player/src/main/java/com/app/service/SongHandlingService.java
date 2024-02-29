@@ -1,14 +1,16 @@
 package com.app.service;
 
-import java.io.IOException;
+import org.springframework.core.io.Resource;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import com.app.dto.ApiResponseDTO;
+import com.app.entities.Song;
 
 public interface SongHandlingService {
-	ApiResponseDTO uploadSongToFolderPathToDB(Long songId, MultipartFile song) throws IOException;
+	
+//	Song getSongById(Long songId) throws Exception;
+	
+	    Song findSongById(Long songId);
+	    
+	    Resource loadSongAsResource(Long songId) throws Exception;
 
-	byte[] downloadSong(Long songId) throws IOException;
 
 }

@@ -1,5 +1,8 @@
 package com.app.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,14 @@ public class PlaylistServiceImpl implements PlaylistService {
 
 	@Autowired
 	private PlaylistDao playlistDao;
+	
+	public Optional<Playlist> getPlaylistById(Long playlistId) {
+        return playlistDao.findById(playlistId);
+    }
+	
+	public List<Playlist> getAllPlaylists() {
+        return playlistDao.findAll();
+    }
 
 	@Override
 	public Playlist createPlaylist(Playlist playlist) {

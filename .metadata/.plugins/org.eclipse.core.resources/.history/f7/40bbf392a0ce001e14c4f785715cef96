@@ -1,0 +1,8 @@
+package com.app.dto;
+
+public class SongDetailsDTO {
+
+	private String songTitle;
+	private Long playlistId;
+
+}

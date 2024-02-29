@@ -1,5 +1,9 @@
 package com.app.service;
 
+import java.util.List;
+import java.util.Optional;
+
+
 import com.app.dto.ApiResponseDTO;
 import com.app.entities.Playlist;
 import com.app.entities.Song;
@@ -10,5 +14,9 @@ public interface PlaylistService {
 	ApiResponseDTO deletePlaylist(Long playlistId);
 	
 	ApiResponseDTO addSongToPlaylist(Long playListId, Song song);
+
+	Optional<Playlist> getPlaylistById(Long playlistId);
+
+	List<Playlist> getAllPlaylists();
 
 }
